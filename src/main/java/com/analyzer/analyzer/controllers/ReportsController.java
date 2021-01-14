@@ -15,14 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.analyzer.analyzer.beans.ReportsRequest;
 import com.analyzer.analyzer.services.ReportsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class ReportsController {
     @Autowired
     private ReportsService reportsService;
 	
 	@PostMapping(path="/reports/getPopularQueries")
-	//INFO: we can get post request this way, using hashmap as well, if we don;t want to write a bean: (@RequestBody Map<String, Object> request)
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<Map<String, Object>> getPopularQueries(@Valid @RequestBody ReportsRequest request) {
 		//basic level validation
 		Map<String, Object> resp = new HashMap<String, Object>();
@@ -31,11 +33,11 @@ public class ReportsController {
 	}
 	
 	@PostMapping(path="/reports/noResultQueries")
-	//INFO: we can get post request this way, using hashmap as well, if we don;t want to write a bean: (@RequestBody Map<String, Object> request)
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public ResponseEntity<Map<String, Object>> noResultQueries(@Valid @RequestBody ReportsRequest request) {
 		//basic level validation
 		Map<String, Object> resp = new HashMap<String, Object>();
-    	resp.put("popularQueries", reportsService.getQueriesWithNoResult(request));
+    	resp.put("noResultQueries", reportsService.getQueriesWithNoResult(request));
 		return new ResponseEntity<Map<String, Object>>(resp,HttpStatus.OK);
 	}
 }
